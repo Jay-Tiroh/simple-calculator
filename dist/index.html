@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="output.css" />
+  </head>
+  <body class="w-screen">
+    <div class="wrapper">
+      <div class="output">
+        <div class="calculation"></div>
+        <div class="result"></div>
+      </div>
+      <div class="btn-container">
+        <div class="main-btns">
+          <div class="row first">
+            <div class="btn clear-btn">AC</div>
+            <div class="btn brace" data-sign="leftBracket">&lpar;</div>
+            <div class="btn brace" data-sign="rightBracket">&rpar;</div>
+            <div class="btn yellow" data-sign="/" data-operator="divide">
+              <span class="symbol">&div;</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="btn digit">7</div>
+            <div class="btn digit">8</div>
+            <div class="btn digit">9</div>
+            <div class="btn yellow" data-sign="*" data-operator="times">
+              <span class="symbol">&times;</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="btn digit">4</div>
+            <div class="btn digit">5</div>
+            <div class="btn digit">6</div>
+            <div class="btn yellow" data-sign="-" data-operator="subtract">
+              <span class="symbol">&minus;</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="btn digit">1</div>
+            <div class="btn digit">2</div>
+            <div class="btn digit">3</div>
+            <div class="btn yellow" data-sign="+" data-operator="add">
+              <span class="symbol">&plus;</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="btn col-span-2 zero w-full digit">0</div>
+            <div class="btn digit">.</div>
+            <div class="btn equals" data-operator="equals">
+              <span class="symbol">&equals;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
