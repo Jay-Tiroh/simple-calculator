@@ -81,6 +81,10 @@ function calculate() {
   }
   if (errorFound) {
     evaluated = false;
+    setTimeout(() => {
+      clear(topOutput);
+      clear(result);
+    }, 2000);
   } else {
     evaluated = true;
   }
