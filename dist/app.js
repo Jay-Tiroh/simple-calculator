@@ -40,7 +40,9 @@ btns.forEach((btn) => {
     if (evaluated) {
       clear(topOutput);
       evaluated = false;
-      topOutput.innerHTML = ans;
+      thisBtn.classList.contains("digit")
+        ? (topOutput.innerHTML = "")
+        : (topOutput.innerHTML = ans);
     }
 
     if (e.currentTarget.classList.contains("digit")) {
@@ -48,7 +50,6 @@ btns.forEach((btn) => {
     }
 
     if (e.currentTarget.classList.contains("yellow")) {
-      //   console.log(e.currentTarget);
       topOutput.innerHTML += symbol;
     }
 
@@ -58,121 +59,33 @@ btns.forEach((btn) => {
     }
 
     if (e.currentTarget.classList.contains("equals")) calculate();
-    // equation = calculate();
   });
 });
-
-// yellowBtns.forEach((btn) => {
-//   btn.addEventListener("click", (e) => {
-//     let operation = e.target.dataset.operator;
-
-//     // // mutationObserver.disconnect();
-//     // currentValue = topOutput.innerHTML;
-//     // storedInput.push(currentValue);
-//     // result.innerHTML = currentValue;
-//     // clear(topOutput);
-//     // // console.log(currentValue);
-
-//     // if (operation === "add") {
-//     //   storedInput.push("+");
-
-//     //   //   console.log(equation);
-//     //   if (isStored % 2 === 1) {
-//     //     mutationObserver.disconnect();
-//     //     isStored++;
-//     //     calculate();
-//     //   } else {
-//     //     // mutationObserver.observe(topOutput, {
-//     //     //   childList: true,
-//     //     //   subtree: true,
-//     //     //   CharacterData: true,
-//     //     //   characterDataOldValue: true,
-//     //     // });
-//     //     isStored++;
-//     //   }
-//     // }
-//   });
-// });
 
 // FUNCTIONS
 
 function calculate() {
-  //   storedInput.forEach((item) => {
-  //     equation += item;
-  //   });
-  //   console.log(equation);
   equation = topOutput.innerHTML;
-  result.innerHTML = eval(equation);
-  evaluated = true;
-  ans = result.innerHTML;
+  let answer;
+  let errorFound = false;
+  try {
+    answer = eval(equation);
+    result.innerHTML = answer;
+    ans = answer;
+  } catch (error) {
+    error.message = `calculation error.
+    check input and try again`;
+    result.style.textAlign = "center";
+    result.innerHTML = error.message;
+    errorFound = true;
+  }
+  if (errorFound) {
+    evaluated = false;
+  } else {
+    evaluated = true;
+  }
 }
 
 function clear(item) {
   item.innerHTML = "";
 }
-
-//   if (isStored && e.currentTarget.classList.contains("plus")) {
-//     accumulator += parseInt(storedInput);
-//     topOutput.innerHTML = "";
-//     result.innerHTML = accumulator;
-//   }
-//   if (isStored && e.currentTarget.classList.contains("multiplication")) {
-//     accumulator *= parseInt(storedInput);
-//     topOutput.innerHTML = "";
-//     result.innerHTML = accumulator;
-//   }
-//   if (isStored && e.currentTarget.classList.contains("division")) {
-//     accumulator /= parseInt(storedInput);
-//     topOutput.innerHTML = "";
-//     result.innerHTML = accumulator;
-//   }
-
-// function calculate(btn) {
-//   let storedInput = topOutput.innerHTML;
-//   let resultOutput = result.innerHTML;
-//   isStored++;
-//   topOutput.innerHTML = "";
-//   resultOutput = storedInput;
-//   accumulator = storedInput;
-//   if (btn.classList.contains("minus")) {
-//     let operation = accumulator - topOutput;
-//   }
-//   return operation;
-// }
-
-// if (e.currentTarget.classList.contains("yellow")) {
-//       let storedInput = [];
-//       let iteration = storedInput.length;
-//       let enteredValue = 0;
-//       let isClicked = 0;
-
-//       if (iteration === 0) {
-//         storedInput.push(Number(topOutput.innerHTML));
-//         let num = storedInput[iteration];
-//         result.innerHTML = num;
-//         topOutput.innerHTML = "";
-//         accumulator = storedInput[iteration];
-//         isClicked++;
-//       }
-
-//       if (isClicked > 0 && e.currentTarget.classList.contains("equals")) {
-//         // if (e.currentTarget.classList.contains("minus")) {
-//         enteredValue = getInput();
-//         // storedInput[isClicked] = enteredValue;
-
-//         //   storedInput = topOutput.innerHTML;
-//         //   accumulator -= parseInt(storedInput);
-//         //   topOutput.innerHTML = "";
-//         setTimeout(() => {
-//           if (!enteredValue) result.innerHTML = accumulator;
-//           else {
-//             result.innerHTML = accumulator - enteredValue;
-//           }
-//         }, 2000);
-//       }
-//       function getInput() {
-//         setInterval(() => {
-//           let number = Number(topOutput.innerHTML);
-//           return number;
-//         }, 1000);
-//       }

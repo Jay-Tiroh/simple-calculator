@@ -618,7 +618,8 @@ body {
   align-items: end;
 }
 
-.main-btns {
+.main-btns,
+.secondary-btns {
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -699,4 +700,10 @@ body {
 
 .first .btn:not(.yellow, .equals):hover {
   background-color: #8d8d8d;
+}
+
+@media only screen and (max-width: 640px) {
+  .btn {
+    scale: 0.9;
+  }
 }
