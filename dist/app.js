@@ -6,28 +6,25 @@ const btns = document.querySelectorAll(".btn");
 const yellowBtns = document.querySelectorAll(".yellow");
 const brackets = document.querySelectorAll(".brace");
 
-// mutation observer
-const mutationObserver = new MutationObserver(() => {
-  currentValue = topOutput.innerHTML;
-  equation += currentValue;
-  console.log(equation);
-});
-
 result.innerHTML = 0;
 // VARIABLES
 let evaluated = false;
-let equation;
 let storedInput = [];
 let currentValue;
 let ans;
+let equation;
 
 // EVENT LISTENERS
 brackets.forEach((brace) => {
   brace.addEventListener("click", (e) => {
     let symbol = e.currentTarget.dataset.sign;
-    symbol === "leftBracket"
-      ? (topOutput.innerHTML += `(`)
-      : (topOutput.innerHTML += `)`);
+    if (symbol === "leftBracket") {
+      topOutput.innerHTML += `(`;
+      storedInput.push(`(`);
+    } else {
+      topOutput.innerHTML += `)`;
+      storedInput.push(`)`);
+    }
   });
 });
 
@@ -40,33 +37,52 @@ btns.forEach((btn) => {
     if (evaluated) {
       clear(topOutput);
       evaluated = false;
-      thisBtn.classList.contains("digit")
-        ? (topOutput.innerHTML = "")
-        : (topOutput.innerHTML = ans);
+      if (
+        thisBtn.classList.contains("digit") ||
+        thisBtn.classList.contains("delete")
+      ) {
+        topOutput.innerHTML = "";
+        storedInput.length = 0;
+      } else {
+        topOutput.innerHTML = ans;
+      }
     }
 
-    if (e.currentTarget.classList.contains("digit")) {
+    if (thisBtn.classList.contains("digit")) {
       topOutput.innerHTML += value;
+      storedInput.push(value);
     }
 
-    if (e.currentTarget.classList.contains("yellow")) {
+    if (thisBtn.classList.contains("yellow")) {
       topOutput.innerHTML += symbol;
+      storedInput.push(symbol);
     }
 
-    if (e.currentTarget.classList.contains("clear-btn")) {
+    if (thisBtn.classList.contains("clear-btn")) {
       clear(topOutput);
       result.innerHTML = 0;
+      storedInput.length = 0;
     }
 
-    if (e.currentTarget.classList.contains("equals")) calculate();
+    if (thisBtn.classList.contains("delete")) {
+      storedInput.pop();
+      // let lastDigit = topOutput.innerHTML.charAt(-1);
+      topOutput.innerHTML = topOutput.innerHTML.slice(0, -1);
+    }
+    if (e.currentTarget.classList.contains("equals")) {
+      calculate();
+    }
   });
 });
 
 // FUNCTIONS
 
 function calculate() {
-  equation = topOutput.innerHTML;
   let answer;
+  equation = storedInput.join("").replace(/(\))([0-9])/g, "$1*$2");
+  equation = equation.replace(/([0-9])(\()/g, "$1*$2");
+  console.log(equation);
+  // console.log(equation);
   let errorFound = false;
   try {
     answer = eval(equation);
@@ -74,13 +90,14 @@ function calculate() {
     ans = answer;
   } catch (error) {
     error.message = `calculation error.
-    check input and try again`;
+    check input.`;
     result.style.textAlign = "center";
     result.innerHTML = error.message;
     errorFound = true;
   }
   if (errorFound) {
     evaluated = false;
+    storedInput.length = 0;
     setTimeout(() => {
       clear(topOutput);
       clear(result);
