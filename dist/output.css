@@ -554,16 +554,8 @@ video {
   --tw-contain-style:  ;
 }
 
-.col-span-2 {
-  grid-column: span 2 / span 2;
-}
-
 .hidden {
   display: none;
-}
-
-.w-full {
-  width: 100%;
 }
 
 .w-screen {
@@ -610,6 +602,7 @@ body {
 
 .calculation {
   border-bottom: 1px solid rgb(40, 39, 38);
+  position: relative;
 }
 
 .result,
@@ -660,10 +653,7 @@ body {
   height: 4.7rem;
   width: 4.7rem;
   /* background-color: slategray; */
-}
-
-.btn:not(.zero) {
-  border-radius: 50%;
+  border-radius: 10px;
 }
 
 .row .btn:not(.yellow, .equals) {
@@ -714,8 +704,22 @@ body {
   background-color: #8d8d8d;
 }
 
+.functions .btn {
+  /* border-radius: 10px; */
+  height: 3rem;
+  font-size: 1.6rem;
+}
+
+.shift-text {
+  font-size: 1rem;
+  color: #ff9f0a;
+  position: absolute;
+  top: 10;
+  left: 45px;
+}
+
 @media only screen and (max-width: 640px) {
   .btn {
-    scale: 0.75;
+    scale: 0.8;
   }
 }
