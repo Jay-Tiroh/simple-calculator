@@ -31,12 +31,12 @@ window.addEventListener("DOMContentLoaded", () => {
   }, 2000);
   updateHistory();
   topOutput.innerHTML = "press SHIFT + AC to clear history";
-  result.innerHTML = "not perfect yet tho";
+  result.innerHTML = "";
 });
 
 menuBtn.addEventListener("click", () => {
-  topOutput.innerHTML = "bros abeg later";
-  result.innerHTML = "I don tire";
+  topOutput.innerHTML = "This function is not yet available";
+  result.innerHTML = "";
 
   setTimeout(() => {
     clear(topOutput);
@@ -73,6 +73,8 @@ btns.forEach((btn) => {
         topOutput.innerHTML = "";
         storedInput.length = 0;
       } else {
+        storedInput.length = 0;
+        storedInput.push(ans);
         topOutput.innerHTML = ans;
       }
     }
@@ -123,25 +125,32 @@ shiftBtn.addEventListener("click", () => {
 navBtns.forEach((btn) => {
   btn.addEventListener("click", (e) => {
     const thisBtn = e.currentTarget;
-    console.log(history);
     if (history.length > 0) {
+      storedInput.length = 0;
+
       if (thisBtn.classList.contains("prev") && currentIndex > 0) {
         if (currentIndex === history.length - 1) {
           updateDisplay(currentIndex);
+          storedInput.push(topOutput.innerHTML);
+
           currentIndex--;
         } else {
           currentIndex--;
           updateDisplay(currentIndex);
+          storedInput.push(topOutput.innerHTML);
         }
       }
       if (
         thisBtn.classList.contains("next") &&
         currentIndex < history.length - 1
       ) {
-        if (currentIndex === history.length - 1) updateDisplay(currentIndex);
-        else {
+        if (currentIndex === history.length - 1) {
+          updateDisplay(currentIndex);
+          storedInput.push(topOutput.innerHTML);
+        } else {
           currentIndex++;
           updateDisplay(currentIndex);
+          storedInput.push(topOutput.innerHTML);
         }
       }
     } else {
@@ -174,8 +183,8 @@ function calculate() {
   let answer;
   equation = storedInput.join("").replace(/(\))([0-9])/g, "$1*$2");
   equation = equation.replace(/([0-9])(\()/g, "$1*$2");
-  console.log(equation);
-  // console.log(equation);
+  equation = equation.replace(/(\))(\()/g, "$1*$2");
+
   let errorFound = false;
   try {
     answer = eval(equation);
